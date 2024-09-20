@@ -57,13 +57,41 @@ RSpec.describe 'Coupon Endpoints' do
       expect(coupon[:id]).to eq(@coupon2.id.to_s)
 
       coupon = coupon[:attributes]
-      
+
       expect(coupon[:name]).to eq(@coupon2.name)
       expect(coupon[:code]).to eq(@coupon2.code)
       expect(coupon[:discount_type]).to eq(@coupon2.discount_type)
       expect(coupon[:value]).to eq(@coupon2.value)
       expect(coupon[:merchant_id]).to eq(@coupon2.merchant_id)
       expect(coupon[:active]).to eq(@coupon2.active)
+    end
+
+    it 'Can create a coupon' do
+      expect(Coupon.count).to eq(6)
+
+      new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
+
+      post '/api/v1/coupons', params: {coupon: new_coupon_params}, as: :json
+
+      expect(response).to be_successful
+      expect(Coupon.count).to eq(7)
+      new_coupon = Coupon.last
+
+      expect(new_coupon.name).to eq(new_coupon_params[:name])
+      expect(new_coupon.code).to eq(new_coupon_params[:code])
+      expect(new_coupon.discount_type).to eq(new_coupon_params[:discount_type])
+      expect(new_coupon.value).to eq(new_coupon_params[:value])
+      expect(new_coupon.merchant_id).to eq(new_coupon_params[:merchant_id])
+      expect(new_coupon.active).to eq(new_coupon_params[:active])
+    end
+
+    it 'Can update active status attribute' do
+      new_coupon_status_params = {active: false}
+      expect(@coupon1.active).to be(true)
+
+      patch "/api/v1/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      @coupon1.reload
+      expect(@coupon1.active).to be(false)
     end
   end
 end
