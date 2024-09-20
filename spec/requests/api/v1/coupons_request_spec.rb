@@ -18,7 +18,6 @@ RSpec.describe 'Coupon Endpoints' do
     it 'Can return all coupons' do
       get '/api/v1/coupons'
       expect(response).to be_successful
-      # require 'pry'; binding.pry
       coupons = JSON.parse(response.body, symbolize_names: true)[:data]
 
       coupons.each do |coupon|
@@ -49,8 +48,22 @@ RSpec.describe 'Coupon Endpoints' do
         expect(coupon).to have_key(:active)
         expect(coupon[:active]).to be_in([true, false])
       end
+    end
 
+    it 'Can return one coupon' do
+      get "/api/v1/coupons/#{@coupon2.id}"
+      expect(response).to be_successful
+      coupon = JSON.parse(response.body, symbolize_names: true)[:data]
+      expect(coupon[:id]).to eq(@coupon2.id.to_s)
+
+      coupon = coupon[:attributes]
       
+      expect(coupon[:name]).to eq(@coupon2.name)
+      expect(coupon[:code]).to eq(@coupon2.code)
+      expect(coupon[:discount_type]).to eq(@coupon2.discount_type)
+      expect(coupon[:value]).to eq(@coupon2.value)
+      expect(coupon[:merchant_id]).to eq(@coupon2.merchant_id)
+      expect(coupon[:active]).to eq(@coupon2.active)
     end
   end
 end

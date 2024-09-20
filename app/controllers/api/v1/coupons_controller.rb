@@ -4,8 +4,18 @@ class Api::V1::CouponsController < ApplicationController
   def index
     coupons = Coupon.all
     render json: CouponSerializer.new(coupons)
+  end
+
+  def show
+    coupon = Coupon.find(params[:id])
+    render json: CouponSerializer.new(coupon)
+  end
+
+  def create
 
   end
 
+  def update
 
+  end
 end
