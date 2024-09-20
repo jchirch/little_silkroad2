@@ -220,6 +220,23 @@
           null
         ]
       },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/coupon.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/application_record.rb": {
+        "lines": [
+          1,
+          1,
+          null
+        ]
+      },
       "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/merchant.rb": {
         "lines": [
           1,
@@ -264,73 +281,27 @@
           null
         ]
       },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/application_record.rb": {
-        "lines": [
-          1,
-          1,
-          null
-        ]
-      },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/coupon.rb": {
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/invoice.rb": {
         "lines": [
           1,
           1,
           1,
-          null
-        ]
-      },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/controllers/api/v1/coupons_controller.rb": {
-        "lines": [
+          1,
+          1,
           1,
           1,
           null,
           1,
           1,
-          1,
-          null,
           null,
           1,
-          1,
-          1,
+          0,
+          0,
           null,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          1,
-          null,
-          1,
-          1,
-          1,
-          null,
-          null,
-          null,
-          null,
-          1,
-          null,
-          1,
-          2,
-          null,
-          null
-        ]
-      },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/controllers/application_controller.rb": {
-        "lines": [
-          1,
-          null
-        ]
-      },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/serializers/coupon_serializer.rb": {
-        "lines": [
-          1,
-          1,
-          1,
           null
         ]
       }
     },
-    "timestamp": 1726866713
+    "timestamp": 1726868408
   }
 }
