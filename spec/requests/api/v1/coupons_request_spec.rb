@@ -94,4 +94,19 @@ RSpec.describe 'Coupon Endpoints' do
       expect(@coupon1.active).to be(false)
     end
   end
+
+  describe 'Sad paths' do
+    it 'Can only create coupons with unique codes' do
+      Coupon.create!(name: 'Initial Coupon', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true)
+      new_coupon_params = {name: 'Initial Coupon Clone', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true}
+
+      post '/api/v1/coupons', params: {coupon: new_coupon_params}, as: :json
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      data = JSON.parse(response.body, symbolize_names: true)
+
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors]).to include("This coupon code already exists")
+    end
+  end
 end

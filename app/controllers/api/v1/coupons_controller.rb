@@ -13,7 +13,11 @@ class Api::V1::CouponsController < ApplicationController
 
   def create
     coupon = Coupon.create(coupon_params)
-    render json: CouponSerializer.new(coupon)
+    if coupon.save
+      render json: CouponSerializer.new(coupon), status: :created
+    else
+      render json: { errors: coupon.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
