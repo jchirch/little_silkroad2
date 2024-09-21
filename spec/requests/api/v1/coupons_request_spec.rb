@@ -55,8 +55,10 @@ RSpec.describe 'Coupon Endpoints' do
       get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}?include_usage=true"
       # require 'pry'; binding.pry
       expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(coupon[:id]).to eq(@coupon2.id.to_s)
+      expect(response_body[:meta][:status]).to eq(200)
 
       coupon = coupon[:attributes]
 
@@ -100,7 +102,10 @@ RSpec.describe 'Coupon Endpoints' do
       expect(@coupon1.active).to be(true)
 
       patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
       @coupon1.reload
+      expect(response_body[:meta][:status]).to eq(200)
       expect(@coupon1.active).to be(false)
     end
   end

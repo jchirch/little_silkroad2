@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-21T11:23:49-06:00">2024-09-21T11:23:49-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-21T11:47:21-06:00">2024-09-21T11:47:21-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -563,7 +563,7 @@
 
             
 
-            <code class="ruby">    render json: CouponSerializer.new(coupon, {params: {include_usage: params[:include_usage]}})</code>
+            <code class="ruby">    render json: CouponSerializer.new(coupon, meta: {status: response.status}, params: {include_usage: params[:include_usage]})</code>
           </li>
         </div>
       
@@ -753,7 +753,7 @@
 
             
 
-            <code class="ruby">      render json: CouponSerializer.new(coupon)#, status: :ok</code>
+            <code class="ruby">      render json: CouponSerializer.new(coupon, meta: {status: response.status})#, status: :ok</code>
           </li>
         </div>
       
