@@ -97,6 +97,21 @@ RSpec.describe 'Coupon Endpoints' do
       expect(new_coupon.active).to eq(new_coupon_params[:active])
     end
 
+    it 'Can apply coupon to an invoice' do
+      @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
+
+      new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
+
+      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
+
+      expect(response).to be_successful
+      new_coupon = Coupon.last
+
+      
+
+
+    end
+
     it 'Can update active status attribute' do
       new_coupon_status_params = {active: false}
       expect(@coupon1.active).to be(true)
