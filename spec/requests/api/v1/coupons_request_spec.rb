@@ -78,12 +78,12 @@ RSpec.describe 'Coupon Endpoints' do
 
       new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
 
-      post "/api/v1/merchants/'#{@macho_man.id}'/coupons", params: {coupon: new_coupon_params}, as: :json
+      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
 
       expect(response).to be_successful
       expect(Coupon.count).to eq(7)
       new_coupon = Coupon.last
-
+# require 'pry'; binding.pry
       expect(new_coupon.name).to eq(new_coupon_params[:name])
       expect(new_coupon.code).to eq(new_coupon_params[:code])
       expect(new_coupon.discount_type).to eq(new_coupon_params[:discount_type])
@@ -107,7 +107,7 @@ RSpec.describe 'Coupon Endpoints' do
       Coupon.create!(name: 'Initial Coupon', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true)
       new_coupon_params = {name: 'Initial Coupon Clone', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true}
 
-      post '/api/v1/coupons', params: {coupon: new_coupon_params}, as: :json
+      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
       data = JSON.parse(response.body, symbolize_names: true)
