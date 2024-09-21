@@ -52,8 +52,8 @@ RSpec.describe 'Coupon Endpoints' do
     end
 
     it 'Can return one coupon' do
-      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}?include_usage=true"
-      # require 'pry'; binding.pry
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}"
+
       expect(response).to be_successful
       response_body = JSON.parse(response.body, symbolize_names: true)
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -68,11 +68,17 @@ RSpec.describe 'Coupon Endpoints' do
       expect(coupon[:value]).to eq(@coupon2.value)
       expect(coupon[:merchant_id]).to eq(@coupon2.merchant_id)
       expect(coupon[:active]).to eq(@coupon2.active)
-      # require 'pry'; binding.pry
+    end
+
+    it 'Can return one coupon with optional usage attrribute' do
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon3.id}?include_usage=true"
+      expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
+      coupon = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
 
       expect(coupon).to have_key(:use_counter)
       expect(coupon[:use_counter]).to be_an(Integer)
-      expect(coupon[:use_counter]).to eq(@coupon2.invoices.count)
+      expect(coupon[:use_counter]).to eq(@coupon3.invoices.count)
     end
 
     it 'Can create a coupon' do
@@ -95,21 +101,6 @@ RSpec.describe 'Coupon Endpoints' do
       expect(new_coupon.value).to eq(new_coupon_params[:value])
       expect(new_coupon.merchant_id).to eq(new_coupon_params[:merchant_id])
       expect(new_coupon.active).to eq(new_coupon_params[:active])
-    end
-
-    it 'Can apply coupon to an invoice' do
-      @invoice1 = Invoice.create!(customer_id: @real_human1.id, merchant_id: @macho_man.id, status: 'shipped')
-
-      new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
-
-      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
-
-      expect(response).to be_successful
-      new_coupon = Coupon.last
-
-      
-
-
     end
 
     it 'Can update active status attribute' do
