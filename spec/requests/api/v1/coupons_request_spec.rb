@@ -52,7 +52,7 @@ RSpec.describe 'Coupon Endpoints' do
     end
 
     it 'Can return one coupon' do
-      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}"
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}?include_usage=true"
       # require 'pry'; binding.pry
       expect(response).to be_successful
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
@@ -66,10 +66,11 @@ RSpec.describe 'Coupon Endpoints' do
       expect(coupon[:value]).to eq(@coupon2.value)
       expect(coupon[:merchant_id]).to eq(@coupon2.merchant_id)
       expect(coupon[:active]).to eq(@coupon2.active)
+      # require 'pry'; binding.pry
 
       expect(coupon).to have_key(:use_counter)
       expect(coupon[:use_counter]).to be_an(Integer)
-      expect(coupon[:use_counter]).to eq(@coupon2.use_counter)
+      expect(coupon[:use_counter]).to eq(@coupon2.invoices.count)
     end
 
     it 'Can create a coupon' do
