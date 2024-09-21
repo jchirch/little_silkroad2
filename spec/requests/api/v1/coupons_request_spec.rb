@@ -83,7 +83,10 @@ RSpec.describe 'Coupon Endpoints' do
       expect(response).to be_successful
       expect(Coupon.count).to eq(7)
       new_coupon = Coupon.last
-# require 'pry'; binding.pry
+      response_body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response_body[:meta][:status]).to eq(200)
+
       expect(new_coupon.name).to eq(new_coupon_params[:name])
       expect(new_coupon.code).to eq(new_coupon_params[:code])
       expect(new_coupon.discount_type).to eq(new_coupon_params[:discount_type])
@@ -114,6 +117,10 @@ RSpec.describe 'Coupon Endpoints' do
       
       expect(data[:errors]).to be_a(Array)
       expect(data[:errors]).to include("This coupon code already exists")
+    end
+
+    it 'renders error if coupon id could not be found during patch' do
+
     end
   end
 end

@@ -7,31 +7,27 @@ class Api::V1::CouponsController < ApplicationController
 
   def show
     coupon = Coupon.find(params[:id])
-    # use_counter = coupon.invoices.count
     render json: CouponSerializer.new(coupon, {params: {include_usage: params[:include_usage]}})
   end
 
   def create
     merchant = Merchant.find(params[:merchant_id])
-    # require 'pry'; binding.pry
     coupon = merchant.coupons.new(coupon_params)
-    # coupon = Coupon.create(coupon_params)
     if coupon.save
-      render json: CouponSerializer.new(coupon), status: :created
+      render json: CouponSerializer.new(coupon, meta: {status: response.status})
+      #, status: :created
     else
       render json: { errors: coupon.errors[:code] }, status: :unprocessable_entity
     end
   end
 
   def update
-    # begin
-      coupon = Coupon.find(params[:id])
-      if coupon.update(coupon_params)
-        render json: CouponSerializer.new(coupon), status: :ok
-      else
-        render json: { errors: coupon.errors[:code] }, status: :unprocessable_entity
-      end
-    # end
+    coupon = Coupon.find(params[:id])
+    if coupon.update(coupon_params)
+      render json: CouponSerializer.new(coupon)#, status: :ok
+    else
+      render json: { errors: coupon.errors[:code] }#, status: :unprocessable_entity
+    end
   end
 
   private
