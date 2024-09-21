@@ -16,7 +16,8 @@ RSpec.describe 'Coupon Endpoints' do
 
   describe 'HTTP Methods' do
     it 'Can return all coupons' do
-      get '/api/v1/coupons'
+      get "/api/v1/merchants/#{@macho_man.id}/coupons"
+      # require 'pry'; binding.pry
       expect(response).to be_successful
       coupons = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -51,7 +52,8 @@ RSpec.describe 'Coupon Endpoints' do
     end
 
     it 'Can return one coupon' do
-      get "/api/v1/coupons/#{@coupon2.id}"
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}"
+      # require 'pry'; binding.pry
       expect(response).to be_successful
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(coupon[:id]).to eq(@coupon2.id.to_s)
@@ -64,6 +66,10 @@ RSpec.describe 'Coupon Endpoints' do
       expect(coupon[:value]).to eq(@coupon2.value)
       expect(coupon[:merchant_id]).to eq(@coupon2.merchant_id)
       expect(coupon[:active]).to eq(@coupon2.active)
+
+      expect(coupon).to have_key(:use_counter)
+      expect(coupon[:use_counter]).to be_an(Integer)
+      expect(coupon[:use_counter]).to eq(@coupon2.use_counter)
     end
 
     it 'Can create a coupon' do
@@ -71,7 +77,7 @@ RSpec.describe 'Coupon Endpoints' do
 
       new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
 
-      post '/api/v1/coupons', params: {coupon: new_coupon_params}, as: :json
+      post "/api/v1/merchants/'#{@macho_man.id}'/coupons", params: {coupon: new_coupon_params}, as: :json
 
       expect(response).to be_successful
       expect(Coupon.count).to eq(7)
@@ -89,7 +95,7 @@ RSpec.describe 'Coupon Endpoints' do
       new_coupon_status_params = {active: false}
       expect(@coupon1.active).to be(true)
 
-      patch "/api/v1/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
       @coupon1.reload
       expect(@coupon1.active).to be(false)
     end
