@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-22T12:44:50-06:00">2024-09-22T12:44:50-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-22T15:25:27-06:00">2024-09-22T15:25:27-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,14 +22,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  98.88%
+  99.22%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.4
+         2.39
        </span>
     </span> hits/line
     )
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>357</b> relevant lines,
-    <span class="green"><b>353</b> lines covered</span> and
-    <span class="red"><b>4</b> lines missed. </span>
+    <b>385</b> relevant lines,
+    <span class="green"><b>382</b> lines covered</span> and
+    <span class="red"><b>3</b> lines missed. </span>
     (<span class="green">
-  98.88%
+  99.22%
 </span>
 )
   </div>
@@ -87,7 +87,7 @@
             <td class="cell--number">12</td>
             <td class="cell--number">12</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">3.00</td>
+            <td class="cell--number">3.17</td>
             
           </tr>
         
@@ -137,12 +137,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#478ad4916d57fe43b22721b372f050aab1da2e20" class="src_link" title="app/models/merchant.rb">app/models/merchant.rb</a></td>
-            <td class="green strong cell--number t-file__coverage">93.55 %</td>
+            <td class="green strong cell--number t-file__coverage">96.77 %</td>
             <td class="cell--number">55</td>
             <td class="cell--number">31</td>
-            <td class="cell--number">29</td>
-            <td class="cell--number">2</td>
-            <td class="cell--number">1.55</td>
+            <td class="cell--number">30</td>
+            <td class="cell--number">1</td>
+            <td class="cell--number">1.84</td>
             
           </tr>
         
@@ -292,11 +292,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#6f830a0776c09bd124208399a5d119508bbc8ae8" class="src_link" title="spec/models/merchant_spec.rb">spec/models/merchant_spec.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">148</td>
-            <td class="cell--number">81</td>
-            <td class="cell--number">81</td>
+            <td class="cell--number">194</td>
+            <td class="cell--number">109</td>
+            <td class="cell--number">109</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">3.60</td>
+            <td class="cell--number">3.16</td>
             
           </tr>
         
@@ -560,9 +560,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="25" data-linenumber="13">
+          <li class="covered" data-hits="27" data-linenumber="13">
             
-              <span class="hits">25</span>
+              <span class="hits">27</span>
             
 
             
@@ -1653,7 +1653,7 @@
     <h3>app/models/merchant.rb</h3>
     <h4>
       <span class="green">
-  93.55%
+  96.77%
 </span>
 
       lines covered
@@ -1663,8 +1663,8 @@
 
     <div class="t-line-summary">
       <b>31</b> relevant lines.
-      <span class="green"><b>29</b> lines covered</span> and
-      <span class="red"><b>2</b> lines missed.</span>
+      <span class="green"><b>30</b> lines covered</span> and
+      <span class="red"><b>1</b> lines missed.</span>
     </div>
 
     
@@ -2129,33 +2129,33 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="42">
+          <li class="covered" data-hits="6" data-linenumber="42">
             
-              <span class="hits">4</span>
-            
-
+              <span class="hits">6</span>
             
 
-            <code class="ruby">		cost = invoice_items.where(invoice_id: invoice.id).sum(&#39;quantity * unit_price&#39;)</code>
+            
+
+            <code class="ruby">		cost = invoice.invoice_items.joins(:item).where(items: {merchant_id: self.id}).sum(&#39;invoice_items.quantity * invoice_items.unit_price&#39;)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="4" data-linenumber="43">
+          <li class="covered" data-hits="6" data-linenumber="43">
             
-              <span class="hits">4</span>
-            
-
+              <span class="hits">6</span>
             
 
-            <code class="ruby">		if coupon</code>
+            
+
+            <code class="ruby">		if coupon &amp;&amp; coupon.merchant_id == self.id</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="3" data-linenumber="44">
+          <li class="covered" data-hits="5" data-linenumber="44">
             
-              <span class="hits">3</span>
+              <span class="hits">5</span>
             
 
             
@@ -2165,9 +2165,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="45">
+          <li class="covered" data-hits="3" data-linenumber="45">
             
-              <span class="hits">2</span>
+              <span class="hits">3</span>
             
 
             
@@ -2177,9 +2177,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="46">
+          <li class="covered" data-hits="2" data-linenumber="46">
             
-              <span class="hits">1</span>
+              <span class="hits">2</span>
             
 
             
@@ -2211,7 +2211,9 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="49">
+          <li class="covered" data-hits="1" data-linenumber="49">
+            
+              <span class="hits">1</span>
             
 
             
@@ -6538,8 +6540,8 @@
     
 
     <div class="t-line-summary">
-      <b>81</b> relevant lines.
-      <span class="green"><b>81</b> lines covered</span> and
+      <b>109</b> relevant lines.
+      <span class="green"><b>109</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -6733,9 +6735,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="17">
+          <li class="covered" data-hits="20" data-linenumber="17">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6745,9 +6747,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="18">
+          <li class="covered" data-hits="20" data-linenumber="18">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6757,9 +6759,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="19">
+          <li class="covered" data-hits="20" data-linenumber="19">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6769,9 +6771,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="20">
+          <li class="covered" data-hits="20" data-linenumber="20">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6781,9 +6783,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="21">
+          <li class="covered" data-hits="20" data-linenumber="21">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6793,9 +6795,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="22">
+          <li class="covered" data-hits="20" data-linenumber="22">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6805,9 +6807,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="23">
+          <li class="covered" data-hits="20" data-linenumber="23">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6817,9 +6819,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="24">
+          <li class="covered" data-hits="20" data-linenumber="24">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6829,9 +6831,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="25">
+          <li class="covered" data-hits="20" data-linenumber="25">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6841,9 +6843,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="26">
+          <li class="covered" data-hits="20" data-linenumber="26">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6853,9 +6855,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="27">
+          <li class="covered" data-hits="20" data-linenumber="27">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -6865,9 +6867,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="18" data-linenumber="28">
+          <li class="covered" data-hits="20" data-linenumber="28">
             
-              <span class="hits">18</span>
+              <span class="hits">20</span>
             
 
             
@@ -7770,7 +7772,7 @@
 
             
 
-            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
           </li>
         </div>
       
@@ -7782,29 +7784,29 @@
 
             
 
-            <code class="ruby">      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: merchant.id)  </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="113">
+          <li class="never" data-hits="" data-linenumber="113">
+            
+
+            
+
+            <code class="ruby">  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="114">
             
               <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="114">
-            
-
-            
-
-            <code class="ruby">  </code>
+            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
           </li>
         </div>
       
@@ -7816,17 +7818,19 @@
 
             
 
-            <code class="ruby">      expect(merchant.total_cost(invoice)).to eq(30)</code>
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="116">
+          <li class="covered" data-hits="1" data-linenumber="116">
+            
+              <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
           </li>
         </div>
       
@@ -7836,7 +7840,7 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">  </code>
           </li>
         </div>
       
@@ -7848,31 +7852,27 @@
 
             
 
-            <code class="ruby">    it &#39;Can calculate sum of merchant items on invoice with dollar coupon discount&#39; do</code>
+            <code class="ruby">      expect(merchant.total_cost(invoice)).to eq(30)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="119">
-            
-              <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="119">
             
 
             
 
-            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
+            <code class="ruby">    end</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="120">
-            
-              <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="120">
             
 
             
 
-            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -7884,7 +7884,7 @@
 
             
 
-            <code class="ruby">      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+            <code class="ruby">    it &#39;Can calculate sum of merchant items on invoice with dollar coupon discount&#39; do</code>
           </li>
         </div>
       
@@ -7896,7 +7896,7 @@
 
             
 
-            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
           </li>
         </div>
       
@@ -7908,78 +7908,34 @@
 
             
 
-            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;T3ST10&#39;, discount_type: &#39;dollar&#39;, value: 10, merchant_id: merchant.id, active: true)</code>
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="124">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="125">
+          <li class="covered" data-hits="1" data-linenumber="124">
             
               <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(20)</code>
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: merchant.id)  </code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="126">
+          <li class="never" data-hits="" data-linenumber="125">
             
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">  </code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="127">
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="128">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">    it &#39;Can calculate sum of merchant items on invoice with percentage coupon discount&#39; do</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="129">
-            
-              <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="130">
+          <li class="covered" data-hits="1" data-linenumber="126">
             
               <span class="hits">1</span>
             
@@ -7991,14 +7947,58 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="131">
+          <li class="covered" data-hits="1" data-linenumber="127">
             
               <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="128">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="129">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="130">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;T3ST10&#39;, discount_type: &#39;dollar&#39;, value: 10, merchant_id: merchant.id, active: true)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="131">
+            
+
+            
+
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -8010,19 +8010,17 @@
 
             
 
-            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(20)</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="133">
-            
-              <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="133">
             
 
             
 
-            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;T3ST10&#39;, discount_type: &#39;percent&#39;, value: 10, merchant_id: merchant.id, active: true)</code>
+            <code class="ruby">    end</code>
           </li>
         </div>
       
@@ -8044,27 +8042,31 @@
 
             
 
-            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(27)</code>
+            <code class="ruby">    it &#39;Can calculate sum of merchant items on invoice with percentage coupon discount&#39; do</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="136">
+          <li class="covered" data-hits="1" data-linenumber="136">
+            
+              <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">    end</code>
+            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="137">
+          <li class="covered" data-hits="1" data-linenumber="137">
+            
+              <span class="hits">1</span>
             
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
           </li>
         </div>
       
@@ -8076,19 +8078,17 @@
 
             
 
-            <code class="ruby">    it &#39;Will not result in a negative balance&#39; do</code>
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: merchant.id)  </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="139">
-            
-              <span class="hits">1</span>
+          <li class="never" data-hits="" data-linenumber="139">
             
 
             
 
-            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
+            <code class="ruby">  </code>
           </li>
         </div>
       
@@ -8112,7 +8112,7 @@
 
             
 
-            <code class="ruby">      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
           </li>
         </div>
       
@@ -8124,12 +8124,338 @@
 
             
 
-            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="143">
+          <li class="never" data-hits="" data-linenumber="143">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="144">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;T3ST10&#39;, discount_type: &#39;percent&#39;, value: 10, merchant_id: merchant.id, active: true)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="145">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="146">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(27)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="147">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="148">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="149">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    it &#39;Can calculate sum of merchant items on invoice with invalid coupon type&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="150">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="151">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="152">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: merchant.id)  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="153">
+            
+
+            
+
+            <code class="ruby">  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="154">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="155">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="156">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="157">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="158">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;T3ST10&#39;, discount_type: &#39;no discount type&#39;, value: 10, merchant_id: merchant.id, active: true)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="159">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="160">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(30)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="161">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="162">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="163">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    it &#39;Will not result in a negative balance from coupon&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="164">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="165">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="166">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: merchant.id)  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="167">
+            
+
+            
+
+            <code class="ruby">  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="168">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="169">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="170">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="171">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="172">
             
               <span class="hits">1</span>
             
@@ -8141,7 +8467,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="144">
+          <li class="never" data-hits="" data-linenumber="173">
             
 
             
@@ -8151,7 +8477,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="145">
+          <li class="covered" data-hits="1" data-linenumber="174">
             
               <span class="hits">1</span>
             
@@ -8163,7 +8489,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="146">
+          <li class="never" data-hits="" data-linenumber="175">
             
 
             
@@ -8173,7 +8499,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="147">
+          <li class="never" data-hits="" data-linenumber="176">
             
 
             
@@ -8183,7 +8509,199 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="148">
+          <li class="never" data-hits="" data-linenumber="177">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="178">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">  describe &#39;Merchant specific coupons&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="179">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    it &#39;Only applies coupons to merchant specific items&#39; do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="180">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      merchant = Merchant.create!(name: &quot;Mr. Business&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="181">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      second_merchant = Merchant.create!(name: &quot;Other Guy&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="182">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item1 = Item.create!(name: &#39;DND Dice&#39;, description: &#39;Dungeons and Dragons&#39;, unit_price: 10.99, merchant_id: merchant.id)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="183">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      item2 = Item.create!(name: &#39;Annabelle&#39;, description: &#39;Haunted Doll&#39;, unit_price: 6.00, merchant_id: second_merchant.id)  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="184">
+            
+
+            
+
+            <code class="ruby">  </code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="185">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: &#39;shipped&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="186">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="187">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="188">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="189">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      coupon = Coupon.create!(name: &#39;Test coupon&#39;, code: &#39;TURING5&#39;, discount_type: &#39;dollar&#39;, value: 5, merchant_id: merchant.id, active: true)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="190">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="191">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      expect(merchant.total_cost(invoice, coupon)).to eq(18)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="192">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="193">
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="194">
             
 
             

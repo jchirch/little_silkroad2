@@ -39,8 +39,8 @@ class Merchant < ApplicationRecord
 	end
 
 	def total_cost(invoice, coupon = nil)
-		cost = invoice_items.where(invoice_id: invoice.id).sum('quantity * unit_price')
-		if coupon
+		cost = invoice.invoice_items.joins(:item).where(items: {merchant_id: self.id}).sum('invoice_items.quantity * invoice_items.unit_price')
+		if coupon && coupon.merchant_id == self.id
 			if coupon.discount_type == 'dollar'
 				[cost - coupon.value, 0].max
 			elsif coupon.discount_type == 'percent'
