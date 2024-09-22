@@ -33,12 +33,15 @@ RSpec.describe Coupon, type: :model do
     it 'merchant may have more coupons as long as less than 5 are active' do
       merchant = Merchant.create!(name: "Cozy Group")
       dud_coupon1 = Coupon.create!(name: 'Welcome Offer1', code: 'TAKE10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
-dud_coupon2 = Coupon.create!(name: 'Spring Offer', code: 'TAKE20', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
-dud_coupon3 = Coupon.create!(name: 'Fall Discount', code: 'TAKE30', discount_type: 'percent', value: 30, merchant_id: merchant.id, active: false)
-dud_coupon4 = Coupon.create!(name: 'Winter Deal', code: 'TAKE40', discount_type: 'percent', value: 40, merchant_id: merchant.id, active: false)
-dud_coupon5 = Coupon.create!(name: 'Holiday Offer', code: 'TAKE50', discount_type: 'percent', value: 50, merchant_id: merchant.id, active: false)
+      dud_coupon2 = Coupon.create!(name: 'Welcome Offer2', code: 'TAKE20', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
+      dud_coupon3 = Coupon.create!(name: 'Welcome Offer3', code: 'TAKE30', discount_type: 'percent', value: 30, merchant_id: merchant.id, active: false)
+      dud_coupon4 = Coupon.create!(name: 'Welcome Offer4', code: 'TAKE40', discount_type: 'percent', value: 40, merchant_id: merchant.id, active: false)
+      dud_coupon5 = Coupon.create!(name: 'Welcome Offer5', code: 'TAKE50', discount_type: 'percent', value: 50, merchant_id: merchant.id, active: false)
+      active_coupon = Coupon.create!(name: 'Holiday Offer', code: 'WOW60', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
 
-
+      expect(active_coupon).to be_valid
+      expect(Coupon.count).to eq(6)
+      expect(Coupon.where(merchant: merchant, active: true).count).to eq(1)
     end
   end
 end

@@ -17,7 +17,7 @@ RSpec.describe 'Coupon Endpoints' do
   describe 'HTTP Methods' do
     it 'Can return all coupons' do
       get "/api/v1/merchants/#{@macho_man.id}/coupons"
-      # require 'pry'; binding.pry
+
       expect(response).to be_successful
       coupons = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -125,12 +125,20 @@ RSpec.describe 'Coupon Endpoints' do
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
       data = JSON.parse(response.body, symbolize_names: true)
-      
+  
       expect(data[:errors]).to be_a(Array)
-      expect(data[:errors]).to include("This coupon code already exists")
+      expect(data[:errors]).to include("Code This coupon code already exists")
     end
 
-    it 'renders error if coupon id could not be found during patch' do
+    xit 'renders error if patch fails from invalid data' do
+      coupon = Coupon.create!(name: 'Change My Name', code: 'Test123', discount_type: 'percent', value: 20, merchant_id: @macho_man.id, active: true)
+      new_coupon_status_params = {name: ""}
+      patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{coupon.id}", params: {coupon: new_coupon_status_params}, as: :json      # require 'pry'; binding.pry
+      errors = (JSON.parse(response.body)["errors"])
+     
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      expect(errors).to include("Name is required")
 
     end
   end
