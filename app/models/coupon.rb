@@ -14,5 +14,4 @@ class Coupon < ApplicationRecord
       errors.add(:merchant, "Merchant can only have a maximum of 5 active coupons at once.")
     end
   end
-
 end

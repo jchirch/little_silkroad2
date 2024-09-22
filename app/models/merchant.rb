@@ -37,4 +37,19 @@ class Merchant < ApplicationRecord
 	def self.search(param)
 		self.where("name ILIKE ?", "%#{param}%").order(:name).first
 	end
+
+	def total_cost(invoice, coupon = nil)
+		cost = invoice_items.where(invoice_id: invoice.id).sum('quantity * unit_price')
+		if coupon
+			if coupon.discount_type == 'dollar'
+				[cost - coupon.value, 0].max
+			elsif coupon.discount_type == 'percent'
+				cost - (cost * (coupon.value.to_f / 100))
+			else
+				cost
+			end
+		else
+			cost
+		end
+	end
 end

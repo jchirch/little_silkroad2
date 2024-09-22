@@ -104,4 +104,45 @@ RSpec.describe Merchant, type: :model do
       expect(Invoice.where(merchant_id: @steve_the_pirate.id).count).to eq(0)
     end
   end
+
+  describe 'merchant items calculator' do
+    it 'Can calculate sum of merchant items on invoice' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )
+  
+      expect(merchant.total_cost(invoice)).to eq(30)
+    end
+
+    it 'Can calculate sum of merchant items on invoice with dollar coupon discount' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST10', discount_type: 'dollar', value: 10, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(20)
+    end
+
+    it 'Can calculate sum of merchant items on invoice with percentage coupon discount' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(27)
+    end
+
+    it 'Will not result in a negative balance from coupon' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: @dice, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: @cursed_object, invoice: invoice, quantity: 1, unit_price: 7.00 )
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST100', discount_type: 'dollar', value: 1000000, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(0)
+    end
+  end
 end
