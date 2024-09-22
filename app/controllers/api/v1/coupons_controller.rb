@@ -1,27 +1,32 @@
 class Api::V1::CouponsController < ApplicationController
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found_response
 
   def index
-    coupons = Coupon.all
+    merchant = Merchant.find(params[:merchant_id])
+    coupons = merchant.coupons
     render json: CouponSerializer.new(coupons)
   end
 
   def show
     coupon = Coupon.find(params[:id])
-    render json: CouponSerializer.new(coupon)
+    render json: CouponSerializer.new(coupon, meta: {status: response.status}, params: {include_usage: params[:include_usage]})
   end
 
   def create
-    coupon = Coupon.create(coupon_params)
-    render json: CouponSerializer.new(coupon)
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = merchant.coupons.new(coupon_params)
+    if coupon.save
+      render json: CouponSerializer.new(coupon, meta: {status: response.status})
+    else
+      render json: { errors: coupon.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def update
-    begin
-      coupon = Coupon.find(params[:id])
-      if coupon.update(coupon_params)
-        render json: CouponSerializer.new(coupon)
-      end
+    coupon = Coupon.find(params[:id])
+    if coupon.update(coupon_params)
+      render json: CouponSerializer.new(coupon, meta: {status: response.status})#, status: :ok
+    else
+      render json: { errors: coupon.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

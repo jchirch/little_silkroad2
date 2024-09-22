@@ -16,7 +16,8 @@ RSpec.describe 'Coupon Endpoints' do
 
   describe 'HTTP Methods' do
     it 'Can return all coupons' do
-      get '/api/v1/coupons'
+      get "/api/v1/merchants/#{@macho_man.id}/coupons"
+
       expect(response).to be_successful
       coupons = JSON.parse(response.body, symbolize_names: true)[:data]
 
@@ -51,10 +52,13 @@ RSpec.describe 'Coupon Endpoints' do
     end
 
     it 'Can return one coupon' do
-      get "/api/v1/coupons/#{@coupon2.id}"
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon2.id}"
+
       expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
       coupon = JSON.parse(response.body, symbolize_names: true)[:data]
       expect(coupon[:id]).to eq(@coupon2.id.to_s)
+      expect(response_body[:meta][:status]).to eq(200)
 
       coupon = coupon[:attributes]
 
@@ -66,16 +70,30 @@ RSpec.describe 'Coupon Endpoints' do
       expect(coupon[:active]).to eq(@coupon2.active)
     end
 
+    it 'Can return one coupon with optional usage attrribute' do
+      get "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon3.id}?include_usage=true"
+      expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
+      coupon = JSON.parse(response.body, symbolize_names: true)[:data][:attributes]
+
+      expect(coupon).to have_key(:use_counter)
+      expect(coupon[:use_counter]).to be_an(Integer)
+      expect(coupon[:use_counter]).to eq(@coupon3.invoices.count)
+    end
+
     it 'Can create a coupon' do
       expect(Coupon.count).to eq(6)
 
       new_coupon_params = {name: 'Spooktacular Savings', code: '50Ween', discount_type: 'percent', value: 50, merchant_id: @hot_topic.id, active: true}
 
-      post '/api/v1/coupons', params: {coupon: new_coupon_params}, as: :json
+      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
 
       expect(response).to be_successful
       expect(Coupon.count).to eq(7)
       new_coupon = Coupon.last
+      response_body = JSON.parse(response.body, symbolize_names: true)
+
+      expect(response_body[:meta][:status]).to eq(200)
 
       expect(new_coupon.name).to eq(new_coupon_params[:name])
       expect(new_coupon.code).to eq(new_coupon_params[:code])
@@ -89,9 +107,39 @@ RSpec.describe 'Coupon Endpoints' do
       new_coupon_status_params = {active: false}
       expect(@coupon1.active).to be(true)
 
-      patch "/api/v1/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      expect(response).to be_successful
+      response_body = JSON.parse(response.body, symbolize_names: true)
       @coupon1.reload
+      expect(response_body[:meta][:status]).to eq(200)
       expect(@coupon1.active).to be(false)
+    end
+  end
+
+  describe 'Sad paths' do
+    it 'Can only create coupons with unique codes' do
+      Coupon.create!(name: 'Initial Coupon', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true)
+      new_coupon_params = {name: 'Initial Coupon Clone', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true}
+
+      post "/api/v1/merchants/#{@hot_topic.id}/coupons", params: {coupon: new_coupon_params}, as: :json
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      data = JSON.parse(response.body, symbolize_names: true)
+  
+      expect(data[:errors]).to be_a(Array)
+      expect(data[:errors]).to include("Code This coupon code already exists")
+    end
+
+    xit 'renders error if patch fails from invalid data' do
+      coupon = Coupon.create!(name: 'Change My Name', code: 'Test123', discount_type: 'percent', value: 20, merchant_id: @macho_man.id, active: true)
+      new_coupon_status_params = {name: ""}
+      patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{coupon.id}", params: {coupon: new_coupon_status_params}, as: :json      # require 'pry'; binding.pry
+      errors = (JSON.parse(response.body)["errors"])
+     
+      expect(response).to_not be_successful
+      expect(response.status).to eq(422)
+      expect(errors).to include("Name is required")
+
     end
   end
 end
