@@ -2,7 +2,7 @@ class MerchantSerializer
   include JSONAPI::Serializer
   attributes :name
 
-  attribute :coupons_counter do |merchant|
+  attribute :coupon_counter do |merchant|
     merchant.coupons.count
   end
 
