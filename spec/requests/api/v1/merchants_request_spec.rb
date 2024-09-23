@@ -396,6 +396,52 @@ RSpec.describe 'Merchant Endpoints:' do
     end
   end
 
+  describe '#total_cost' do
+  before(:each) do
+    @merchant_test1 = Merchant.create!(name: "Test Merchant")
+    @merchant_test2 = Merchant.create!(name: "Other Merchant")
+  
+    @customer_test = Customer.create!(first_name: 'Mr', last_name: 'Magoo')
+    
+    @item_test1 = Item.create!(name: 'Item 1', description: 'Test Item 1', unit_price: 50, merchant: @merchant_test1)
+    @item_test2 = Item.create!(name: 'Item 2', description: 'Test Item 2', unit_price: 30, merchant: @merchant_test1)
+
+    @invoice_test1 = Invoice.create!(customer: @customer_test, merchant: @merchant_test1, status: 'shipped')
+    @invoice_item1 = InvoiceItem.create!(invoice: @invoice_test1, item: @item_test1, quantity: 2, unit_price: @item_test1.unit_price)
+    @invoice_item2 = InvoiceItem.create!(invoice: @invoice_test1, item: @item_test2, quantity: 1, unit_price: @item_test2.unit_price)
+
+    @dollar_coupon = Coupon.create!(name: 'Dollar Off', code: 'DOLLAR10', discount_type: 'dollar', value: 1, merchant: @merchant_test1, active: true)
+    @percent_coupon = Coupon.create!(name: 'Percent Off', code: 'PERCENT20', discount_type: 'percent', value: 20, merchant: @merchant_test1, active: true)
+    @merchant2_coupon = Coupon.create!(name: 'Wrong Merchant Coupon', code: 'OTHER20', discount_type: 'percent', value: 20, merchant: @merchant_test2, active: true)
+  end
+
+  it 'calculates total cost' do
+    expect(@merchant_test1.total_cost(@invoice_test1)).to eq(130)
+  end
+
+  it 'calculates cost with dollar off coupon' do
+    new_cost = @merchant_test1.total_cost(@invoice_test1, @dollar_coupon)
+    expect(new_cost).to eq(129)
+  end
+
+  it 'calculates cost with percent off coupon' do
+    new_cost = @merchant_test1.total_cost(@invoice_test1, @percent_coupon)
+    expect(new_cost).to eq(104)
+  end
+
+  it 'cannot reduce end cost below zero' do
+    @jackpot = Coupon.create!(name: 'Too much money', code: 'JACKPOT1000', discount_type: 'dollar', value: 1000, merchant: @merchant_test1, active: true)
+    new_cost = @merchant_test1.total_cost(@invoice_test1, @jackpot)
+    expect(new_cost).to eq(0)
+  end
+
+  it 'returns total price with invalid coupon' do
+    @no_good = Coupon.create!(name: 'Bogus', code: 'INVALID1', discount_type: 'error', value: 100, merchant: @merchant_test1, active: true)
+    new_cost = @merchant_test1.total_cost(@invoice_test1, @no_good)
+    expect(new_cost).to eq(130)
+  end
+end
+
   describe '#coupon_counter' do
   it 'returns coupon count' do
     @mr_merchant = Merchant.create!(name: "Test Merchant")
