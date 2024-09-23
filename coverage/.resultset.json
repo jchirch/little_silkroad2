@@ -284,6 +284,14 @@
           0,
           null,
           null,
+          null,
+          1,
+          0,
+          null,
+          null,
+          1,
+          0,
+          null,
           null
         ]
       },
@@ -463,8 +471,48 @@
           1,
           1,
           1,
+          null,
+          1,
+          16,
+          null,
+          null,
+          1,
+          16,
+          null,
+          null,
           17,
           2,
+          null,
+          null
+        ]
+      },
+      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/coupon.rb": {
+        "lines": [
+          1,
+          1,
+          1,
+          null,
+          1,
+          1,
+          1,
+          1,
+          1,
+          1,
+          null,
+          1,
+          4,
+          0,
+          null,
+          null,
+          null,
+          1,
+          0,
+          0,
+          0,
+          0,
+          null,
+          0,
+          null,
           null,
           null
         ]
@@ -567,39 +615,8 @@
           null,
           null
         ]
-      },
-      "/Users/joechirchirillo/Desktop/2_Mod/projects/final_solo_coupons/little_silkroad2/app/models/coupon.rb": {
-        "lines": [
-          1,
-          1,
-          1,
-          null,
-          1,
-          1,
-          1,
-          1,
-          1,
-          1,
-          null,
-          1,
-          4,
-          0,
-          null,
-          null,
-          null,
-          1,
-          0,
-          0,
-          0,
-          0,
-          null,
-          0,
-          null,
-          null,
-          null
-        ]
       }
     },
-    "timestamp": 1727113581
+    "timestamp": 1727115294
   }
 }

@@ -288,20 +288,21 @@ RSpec.describe 'Merchant Endpoints:' do
       invoice3 = Invoice.create(customer: Customer.first, merchant: @liquor_store, status: 'returned', coupon: nil)
 
       get "/api/v1/merchants"
-      
+
       expect(response).to be_successful
       merchants = JSON.parse(response.body)
 
       expect(merchants['data'].count).to eq(3)
+      # require 'pry'; binding.pry
 
-      expect(merchants['data'][0]['attributes']['coupons_count']).to eq(1)
-      expect(merchants['data'][0]['attributes']['invoice_coupon_count']).to eq(1)
+      expect(merchants['data'][0]['attributes']['coupons_counter']).to eq(1)
+      expect(merchants['data'][0]['attributes']['invoice_coupon_counter']).to eq(1)
 
-      expect(merchants['data'][1]['attributes']['coupons_count']).to eq(0)
-      expect(merchants['data'][1]['attributes']['invoice_coupon_count']).to eq(0)
+      expect(merchants['data'][1]['attributes']['coupons_counter']).to eq(0)
+      expect(merchants['data'][1]['attributes']['invoice_coupon_counter']).to eq(0)
 
-      expect(merchants['data'][2]['attributes']['coupons_count']).to eq(1)
-      expect(merchants['data'][2]['attributes']['invoice_coupon_count']).to eq(1)
+      expect(merchants['data'][2]['attributes']['coupons_counter']).to eq(1)
+      expect(merchants['data'][2]['attributes']['invoice_coupon_counter']).to eq(1)
     end
   end
 
