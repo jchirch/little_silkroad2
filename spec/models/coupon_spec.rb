@@ -44,4 +44,36 @@ RSpec.describe Coupon, type: :model do
       expect(Coupon.where(merchant: merchant, active: true).count).to eq(1)
     end
   end
+
+  describe '#sort_by_active' do
+    it 'returns all active coupons' do
+      merchant = Merchant.create!(name: "Cozy Group")
+      dud_coupon1 = Coupon.create!(name: 'Welcome Offer1', code: 'TAKE10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
+      dud_coupon2 = Coupon.create!(name: 'Welcome Offer2', code: 'TAKE20', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
+      active_coupon = Coupon.create!(name: 'Holiday Offer', code: 'WOW60', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
+
+      active_coupons = Coupon.sort_by_active(true)
+      expect(active_coupons).to eq([active_coupon])
+    end
+
+    it 'returns all active coupons' do
+      merchant = Merchant.create!(name: "Cozy Group")
+      dud_coupon1 = Coupon.create!(name: 'Welcome Offer1', code: 'TAKE10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
+      dud_coupon2 = Coupon.create!(name: 'Welcome Offer2', code: 'TAKE20', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
+      active_coupon = Coupon.create!(name: 'Holiday Offer', code: 'WOW60', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
+
+      inactive_coupons = Coupon.sort_by_active(false)
+      expect(inactive_coupons).to eq([dud_coupon1, dud_coupon2])
+    end
+
+    it 'returns all if invalid parameters' do
+      merchant = Merchant.create!(name: "Cozy Group")
+      dud_coupon1 = Coupon.create!(name: 'Welcome Offer1', code: 'TAKE10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
+      dud_coupon2 = Coupon.create!(name: 'Welcome Offer2', code: 'TAKE20', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
+      active_coupon = Coupon.create!(name: 'Holiday Offer', code: 'WOW60', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
+
+      coupons = Coupon.sort_by_active("idk")
+      expect(coupons).to eq([dud_coupon1, dud_coupon2, active_coupon])
+    end
+  end
 end

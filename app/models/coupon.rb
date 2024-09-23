@@ -15,4 +15,13 @@ class Coupon < ApplicationRecord
     end
   end
 
+  def self.sort_by_active(status)
+    if status == true
+      Coupon.where("active = true")
+    elsif status == false
+      Coupon.where("active = false")
+    else
+      all
+    end
+  end
 end

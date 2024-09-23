@@ -104,4 +104,91 @@ RSpec.describe Merchant, type: :model do
       expect(Invoice.where(merchant_id: @steve_the_pirate.id).count).to eq(0)
     end
   end
+
+  describe 'merchant items calculator' do
+    it 'Can calculate sum of merchant items on invoice' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+  
+      expect(merchant.total_cost(invoice)).to eq(30)
+    end
+
+    it 'Can calculate sum of merchant items on invoice with dollar coupon discount' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST10', discount_type: 'dollar', value: 10, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(20)
+    end
+
+    it 'Can calculate sum of merchant items on invoice with percentage coupon discount' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST10', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(27)
+    end
+
+    it 'Can calculate sum of merchant items on invoice with invalid coupon type' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST10', discount_type: 'no discount type', value: 10, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(30)
+    end
+
+    it 'Will not result in a negative balance from coupon' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+
+      coupon = Coupon.create!(name: 'Test coupon', code: 'T3ST100', discount_type: 'dollar', value: 1000000, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(0)
+    end
+  end
+
+  describe 'Merchant specific coupons' do
+    it 'Only applies coupons to merchant specific items' do
+      merchant = Merchant.create!(name: "Mr. Business")
+      second_merchant = Merchant.create!(name: "Other Guy")
+      item1 = Item.create!(name: 'DND Dice', description: 'Dungeons and Dragons', unit_price: 10.99, merchant_id: merchant.id)
+      item2 = Item.create!(name: 'Annabelle', description: 'Haunted Doll', unit_price: 6.00, merchant_id: second_merchant.id)  
+  
+      invoice = Invoice.create!(customer_id: @real_human1.id, merchant_id: merchant.id, status: 'shipped')
+      invoice_item = InvoiceItem.create!(item: item1, invoice: invoice, quantity: 2, unit_price: 11.50 )
+      invoice_item2 = InvoiceItem.create!(item: item2, invoice: invoice, quantity: 1, unit_price: 7.00 )
+
+      coupon = Coupon.create!(name: 'Test coupon', code: 'TURING5', discount_type: 'dollar', value: 5, merchant_id: merchant.id, active: true)
+
+      expect(merchant.total_cost(invoice, coupon)).to eq(18)
+    end
+  end
 end
