@@ -14,4 +14,14 @@ class Coupon < ApplicationRecord
       errors.add(:merchant, "Merchant can only have a maximum of 5 active coupons at once.")
     end
   end
+
+  def self.sort_by_active(status)
+    if status == true
+      Coupon.where("active = true")
+    elsif status == false
+      Coupon.where("active = false")
+    else
+      all
+    end
+  end
 end

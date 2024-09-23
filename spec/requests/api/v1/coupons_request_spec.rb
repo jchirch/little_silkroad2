@@ -19,6 +19,7 @@ RSpec.describe 'Coupon Endpoints' do
       get "/api/v1/merchants/#{@macho_man.id}/coupons"
 
       expect(response).to be_successful
+
       coupons = JSON.parse(response.body, symbolize_names: true)[:data]
 
       coupons.each do |coupon|

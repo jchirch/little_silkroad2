@@ -13,7 +13,7 @@
       <img src="./assets/0.13.1/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-22T15:25:27-06:00">2024-09-22T15:25:27-06:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2024-09-22T18:22:13-06:00">2024-09-22T18:22:13-06:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -22,14 +22,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  99.22%
+  99.23%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         2.39
+         2.4
        </span>
     </span> hits/line
     )
@@ -42,11 +42,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>385</b> relevant lines,
-    <span class="green"><b>382</b> lines covered</span> and
+    <b>391</b> relevant lines,
+    <span class="green"><b>388</b> lines covered</span> and
     <span class="red"><b>3</b> lines missed. </span>
     (<span class="green">
-  99.22%
+  99.23%
 </span>
 )
   </div>
@@ -83,11 +83,11 @@
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#aa68c9e3047020739af82e222cfa68ae9d7c69ad" class="src_link" title="app/models/coupon.rb">app/models/coupon.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">17</td>
-            <td class="cell--number">12</td>
-            <td class="cell--number">12</td>
+            <td class="cell--number">27</td>
+            <td class="cell--number">18</td>
+            <td class="cell--number">18</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">3.17</td>
+            <td class="cell--number">3.11</td>
             
           </tr>
         
@@ -407,8 +407,8 @@
     
 
     <div class="t-line-summary">
-      <b>12</b> relevant lines.
-      <span class="green"><b>12</b> lines covered</span> and
+      <b>18</b> relevant lines.
+      <span class="green"><b>18</b> lines covered</span> and
       <span class="red"><b>0</b> lines missed.</span>
     </div>
 
@@ -560,9 +560,9 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="27" data-linenumber="13">
+          <li class="covered" data-hits="36" data-linenumber="13">
             
-              <span class="hits">27</span>
+              <span class="hits">36</span>
             
 
             
@@ -605,6 +605,118 @@
       
         <div>
           <li class="never" data-hits="" data-linenumber="17">
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="18">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">  def self.sort_by_active(status)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="3" data-linenumber="19">
+            
+              <span class="hits">3</span>
+            
+
+            
+
+            <code class="ruby">    if status == true</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="20">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      Coupon.where(&quot;active = true&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="2" data-linenumber="21">
+            
+              <span class="hits">2</span>
+            
+
+            
+
+            <code class="ruby">    elsif status == false</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="22">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      Coupon.where(&quot;active = false&quot;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="23">
+            
+
+            
+
+            <code class="ruby">    else</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="24">
+            
+              <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      all</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="25">
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="26">
+            
+
+            
+
+            <code class="ruby">  end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="27">
             
 
             
