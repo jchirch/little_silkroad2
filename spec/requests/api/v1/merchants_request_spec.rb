@@ -148,10 +148,10 @@ RSpec.describe 'Merchant Endpoints:' do
           get "/api/v1/merchants/#{@macho_man.id}/invoices"
           expect(response).to be_successful
           invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}
   
           expect(invoices).to contain_exactly(invoice1, invoice2, invoice4)
           expect(invoices).to_not include([invoice3])
@@ -162,10 +162,10 @@ RSpec.describe 'Merchant Endpoints:' do
           expect(response).to be_successful
   
           invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}
   
           expect(invoices).to contain_exactly(invoice1)
           expect(invoices).to_not include([invoice2, invoice3, invoice4])
@@ -175,10 +175,10 @@ RSpec.describe 'Merchant Endpoints:' do
           get "/api/v1/merchants/#{@macho_man.id}/invoices?status=returned"
           expect(response).to be_successful
           invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}
   
           expect(invoices).to contain_exactly(invoice2)
           expect(invoices).to_not include([invoice1, invoice3, invoice4])
@@ -188,10 +188,10 @@ RSpec.describe 'Merchant Endpoints:' do
           get "/api/v1/merchants/#{@macho_man.id}/invoices?status=packaged"
           expect(response).to be_successful
           invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}#shipped
-          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}#returned
-          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}#returned
-          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}#packaged
+          invoice1 = invoices.find {|invoice| invoice[:id] == @invoice1.id.to_s}
+          invoice2 = invoices.find {|invoice| invoice[:id] == @invoice2.id.to_s}
+          invoice3 = invoices.find {|invoice| invoice[:id] == @invoice3.id.to_s}
+          invoice4 = invoices.find {|invoice| invoice[:id] == @invoice4.id.to_s}
   
           expect(invoices).to contain_exactly(invoice4)
           expect(invoices).to_not include([invoice1, invoice2, invoice3])
@@ -275,6 +275,33 @@ RSpec.describe 'Merchant Endpoints:' do
       item_count = @macho_man.items.count
       
       expect(macho_man_response[:attributes][:item_count]).to eq(item_count)
+    end
+  end
+
+  describe 'Modify index return to include coupon and invoice counts' do
+    it 'returns all merchants with coupon count and invoice count' do
+      coupon1 = Coupon.create(name: 'Howdy Partner', code: 'HOWDY10', discount_type: 'percent', value: 10, merchant: @macho_man)
+      coupon2 = Coupon.create(name: 'Man With No Name', code: 'NONAME20', discount_type: 'percent', value: 20, merchant: @liquor_store)
+
+      invoice1 = Invoice.create(customer: Customer.first, merchant: @macho_man, status: 'shipped', coupon: coupon1)
+      invoice2 = Invoice.create(customer: Customer.first, merchant: @kozey_group, status: 'shipped', coupon: coupon2)
+      invoice3 = Invoice.create(customer: Customer.first, merchant: @liquor_store, status: 'returned', coupon: nil)
+
+      get "/api/v1/merchants"
+      
+      expect(response).to be_successful
+      merchants = JSON.parse(response.body)
+
+      expect(merchants['data'].count).to eq(3)
+
+      expect(merchants['data'][0]['attributes']['coupons_count']).to eq(1)
+      expect(merchants['data'][0]['attributes']['invoice_coupon_count']).to eq(1)
+
+      expect(merchants['data'][1]['attributes']['coupons_count']).to eq(0)
+      expect(merchants['data'][1]['attributes']['invoice_coupon_count']).to eq(0)
+
+      expect(merchants['data'][2]['attributes']['coupons_count']).to eq(1)
+      expect(merchants['data'][2]['attributes']['invoice_coupon_count']).to eq(1)
     end
   end
 
