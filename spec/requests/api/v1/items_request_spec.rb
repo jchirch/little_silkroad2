@@ -163,9 +163,9 @@ RSpec.describe 'Item Endpoints:' do
         data: {
             id: @kozey_group.id.to_s,
             type: "merchant",
-            attributes: {
-                name: @kozey_group.name
-            }
+            attributes: {:coupon_counter=>0,
+                        :invoice_coupon_counter=>0,
+                        :name=>"Kozey Group"}
         }
     }
       get "/api/v1/items/#{id}/merchant"

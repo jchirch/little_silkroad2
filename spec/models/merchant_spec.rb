@@ -191,4 +191,30 @@ RSpec.describe Merchant, type: :model do
       expect(merchant.total_cost(invoice, coupon)).to eq(18)
     end
   end
+
+  describe '#coupon_counter' do
+    it 'returns coupon count' do
+      @mr_merchant = Merchant.create!(name: "Test Merchant")
+      @bad_merchant = Merchant.create!(name: "No Coupons")
+      @test_coupon1 = Coupon.create!(name: 'Coupon 1', code: 'YAY10', discount_type: 'percent', value: 10, merchant: @mr_merchant, active: true)
+      @test_coupon2 = Coupon.create!(name: 'Coupon 2', code: 'HOORAY20', discount_type: 'percent', value: 20, merchant: @mr_merchant, active: true)
+
+      expect(@mr_merchant.coupon_counter).to eq(2)
+      expect(@bad_merchant.coupon_counter).to eq(0)
+    end
+  end
+
+  describe '#invoice_coupon_counter' do
+    it 'returns invoice coupon count' do
+      @mr_merchant2 = Merchant.create!(name: "Test Merchant Jr")
+      @mr_merchant3 = Merchant.create!(name: "Test Merchant III")
+      @test_coupon3 = Coupon.create!(name: 'Coupon 3', code: 'YIPPEE30', discount_type: 'percent', value: 30, merchant: @mr_merchant2, active: true)
+      @test_customer = Customer.create!(first_name: 'Jimmy', last_name: 'Dean')
+      @invoice_with_coupon = Invoice.create!(customer: @test_customer, merchant: @mr_merchant2, status: 'shipped', coupon: @test_coupon3)
+      @invoice_without_coupon = Invoice.create!(customer: @test_customer, merchant: @mr_merchant2, status: 'shipped', coupon: nil)
+    
+      expect(@mr_merchant2.invoice_coupon_counter).to eq(1)
+      expect(@mr_merchant3.invoice_coupon_counter).to eq(0)
+    end
+  end
 end
