@@ -10,14 +10,17 @@ RSpec.describe 'Invoice Endpoints:' do
     @invoice2 = Invoice.create(customer: @customer1, merchant: @merchant1, status: 'returned', coupon: @coupon2)   
     @invoice3 = Invoice.create(customer: @customer1, merchant: @merchant1, status: 'returned', coupon: nil)   
   end
+
   describe 'Access coupon id through merchant invoices' do
     it 'returns coupon id through merchant invoice' do
       get "/api/v1/merchants/#{@merchant1.id}/invoices"
 
       expect(response).to be_successful
       invoices = JSON.parse(response.body, symbolize_names: true)[:data]
-      require 'pry'; binding.pry
+    
+      expect(invoices[0][:attributes][:coupon_id]).to eq(@coupon1.id)
+      expect(invoices[1][:attributes][:coupon_id]).to eq(@coupon2.id)
+      expect(invoices[2][:attributes][:coupon_id]).to be_nil
     end
   end
-
 end
