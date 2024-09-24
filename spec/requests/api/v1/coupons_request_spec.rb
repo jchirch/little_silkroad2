@@ -245,7 +245,6 @@ end
     end
   end
 
-
   describe 'Sad paths' do
     it 'Can only create coupons with unique codes' do
       Coupon.create!(name: 'Initial Coupon', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true)
@@ -260,7 +259,7 @@ end
       expect(data[:errors]).to include("Code This coupon code already exists")
     end
 
-    xit 'renders error if patch fails from invalid data' do
+    it 'renders error if patch fails from invalid data' do
       coupon = Coupon.create!(name: 'Change My Name', code: 'Test123', discount_type: 'percent', value: 20, merchant_id: @macho_man.id, active: true)
       new_coupon_status_params = {name: ""}
       patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{coupon.id}", params: {coupon: new_coupon_status_params}, as: :json      # require 'pry'; binding.pry
@@ -268,8 +267,20 @@ end
      
       expect(response).to_not be_successful
       expect(response.status).to eq(422)
-      expect(errors).to include("Name is required")
+      expect(errors).to eq(["Name Name is required"])
+    end
 
+    it 'returns error if more than 5 active coupons exist for merchant' do
+      fifth_coupon_params = {name: '5th active', code: 'ALMOST10', discount_type: 'dollar', value: 10, merchant_id: @macho_man.id, active: true}
+      sixth_coupon_params = {name: '6th active', code: 'OHNO10', discount_type: 'dollar', value: 10, merchant_id: @macho_man.id, active: true}
+
+      post "/api/v1/merchants/#{@macho_man.id}/coupons", params: {coupon: fifth_coupon_params}, as: :json
+      post "/api/v1/merchants/#{@macho_man.id}/coupons", params: {coupon: sixth_coupon_params}, as: :json
+      
+      expect(response.status).to eq(422)
+      expect(response).to have_http_status(:unprocessable_entity)
+      error_response = JSON.parse(response.body)
+      expect(error_response['errors']).to eq(["Merchant Merchant can only have a maximum of 5 active coupons at once."])
     end
   end
 end
