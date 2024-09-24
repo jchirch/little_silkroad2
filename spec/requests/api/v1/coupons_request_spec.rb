@@ -245,6 +245,26 @@ end
     end
   end
 
+  describe 'Rescue blocks' do
+    it 'returns error with incorrect search params for all merchants coupons' do
+      get "/api/v1/merchants/0/coupons"
+      expect(response).to_not be_successful
+      error_response = JSON.parse(response.body)
+
+      expect(error_response['message']).to eq("We could not complete your request, please enter new query.")
+      expect(error_response['errors']).to eq(["Couldn't find Merchant with 'id'=0"])
+    end
+
+    it 'returns error with incorrect search params for one coupon' do
+      get "/api/v1/merchants/0/coupons/0"
+      expect(response).to_not be_successful
+      error_response = JSON.parse(response.body)
+
+      expect(error_response['message']).to eq("We could not complete your request, please enter new query.")
+      expect(error_response['errors']).to eq(["Couldn't find Merchant with 'id'=0"])
+    end
+  end
+
   describe 'Sad paths' do
     it 'Can only create coupons with unique codes' do
       Coupon.create!(name: 'Initial Coupon', code: 'HOWDY10', discount_type: 'dollar', value: 10, merchant_id: @hot_topic.id, active: true)
