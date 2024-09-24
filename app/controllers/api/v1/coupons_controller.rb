@@ -6,14 +6,19 @@ class Api::V1::CouponsController < ApplicationController
     elsif params[:sort_by_active] == "false"
       coupons = Coupon.sort_by_active(false)
     else
-      coupons = Coupon.all
+      coupons = Merchant.find(params[:merchant_id]).coupons
     end
     render json: CouponSerializer.new(coupons)
+  rescue ActiveRecord::RecordNotFound => error
+    render json: ErrorSerializer.format_error(error, 404), status: :not_found
   end
 
   def show
-    coupon = Coupon.find(params[:id])
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = merchant.coupons.find(params[:id])
     render json: CouponSerializer.new(coupon, meta: {status: response.status}, params: {include_usage: params[:include_usage]})
+  rescue ActiveRecord::RecordNotFound => error
+    render json: ErrorSerializer.format_error(error, 404), status: :not_found
   end
 
   def create
