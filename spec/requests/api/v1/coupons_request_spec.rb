@@ -115,6 +115,15 @@ RSpec.describe 'Coupon Endpoints' do
       expect(response_body[:meta][:status]).to eq(200)
       expect(@coupon1.active).to be(false)
     end
+
+    it 'Can handle a delete request and guide user' do
+      delete "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon1.id}"
+
+      expect(response.status).to eq(422)
+      response_body = JSON.parse(response.body, symbolize_names: true)
+      
+      expect(response_body[:error]).to eq("Coupons cannot be deleted, please change 'active:' to 'false' instead.")
+    end
   end
 
   describe '#sort_by_active' do
@@ -257,6 +266,15 @@ end
 
     it 'returns error with incorrect search params for one coupon' do
       get "/api/v1/merchants/0/coupons/0"
+      expect(response).to_not be_successful
+      error_response = JSON.parse(response.body)
+
+      expect(error_response['message']).to eq("We could not complete your request, please enter new query.")
+      expect(error_response['errors']).to eq(["Couldn't find Merchant with 'id'=0"])
+    end
+
+    it 'Returns error from delete request with invalid parameters' do
+      delete "/api/v1/merchants/0/coupons/0"
       expect(response).to_not be_successful
       error_response = JSON.parse(response.body)
 
