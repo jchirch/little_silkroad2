@@ -40,6 +40,15 @@ class Api::V1::CouponsController < ApplicationController
     end
   end
 
+  def delete
+    merchant = Merchant.find(params[:merchant_id])
+    coupon = merchant.coupons.find(params[:id])
+    
+    render json: { error: "Coupons cannot be deleted, please change 'active:' to 'false' instead." }, status: :unprocessable_entity
+  rescue ActiveRecord::RecordNotFound => error
+    render json: ErrorSerializer.format_error(error, 404), status: :not_found
+  end
+
   private
 
   def coupon_params
