@@ -109,6 +109,7 @@ RSpec.describe 'Coupon Endpoints' do
       expect(@coupon1.active).to be(true)
 
       patch "/api/v1/merchants/#{@macho_man.id}/coupons/#{@coupon1.id}", params: {coupon: new_coupon_status_params}, as: :json
+      
       expect(response).to be_successful
       response_body = JSON.parse(response.body, symbolize_names: true)
       @coupon1.reload
@@ -127,36 +128,20 @@ RSpec.describe 'Coupon Endpoints' do
   end
 
   describe '#sort_by_active' do
-  it 'returns all active coupons for the specific merchant' do
-    merchant = Merchant.create!(name: "Cozy Group")
-    dud_coupon1 = Coupon.create!(name: 'Test Offer1', code: 'TAKE54', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
-    dud_coupon2 = Coupon.create!(name: 'Test Offer2', code: 'TAKE53', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
-    active_coupon = Coupon.create!(name: 'Test Offer Good', code: 'TAKE52', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
+    it 'returns all active coupons for the specific merchant' do
+      get "/api/v1/merchants/#{@macho_man.id}/coupons?sort_by_active=true"
 
-    active_coupons = Coupon.where(merchant_id: merchant.id).sort_by_active(true)
-    expect(active_coupons).to eq([active_coupon])
+      active_coupons = Coupon.sort_by_active(@macho_man.id, true)
+      expect(active_coupons).to eq([@coupon1, @coupon2, @coupon4, @coupon5])
+    end
+
+    it 'returns all inactive coupons for the specific merchant' do
+      get "/api/v1/merchants/#{@macho_man.id}/coupons?sort_by_active=false"
+
+      inactive_coupons = Coupon.sort_by_active(@macho_man.id, false)
+      expect(inactive_coupons).to eq([@coupon3, @coupon6])
+    end
   end
-
-  it 'returns all inactive coupons for the specific merchant' do
-    merchant = Merchant.create!(name: "Cozy Group")
-    dud_coupon1 = Coupon.create!(name: 'Test Offer1', code: 'TAKE54', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
-    dud_coupon2 = Coupon.create!(name: 'Test Offer2', code: 'TAKE53', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
-    active_coupon = Coupon.create!(name: 'Test Offer Good', code: 'TAKE52', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
-
-    inactive_coupons = Coupon.where(merchant_id: merchant.id).sort_by_active(false)
-    expect(inactive_coupons).to eq([dud_coupon1, dud_coupon2])
-  end
-
-  it 'returns all coupons for the specific merchant if invalid parameters' do
-    merchant = Merchant.create!(name: "Cozy Group")
-    dud_coupon1 = Coupon.create!(name: 'Test Offer1', code: 'TAKE54', discount_type: 'percent', value: 10, merchant_id: merchant.id, active: false)
-    dud_coupon2 = Coupon.create!(name: 'Test Offer2', code: 'TAKE53', discount_type: 'percent', value: 20, merchant_id: merchant.id, active: false)
-    active_coupon = Coupon.create!(name: 'Test Offer Good', code: 'TAKE52', discount_type: 'percent', value: 60, merchant_id: merchant.id, active: true)
-
-    coupons = Coupon.where(merchant_id: merchant.id).sort_by_active("idk")
-    expect(coupons).to eq([dud_coupon1, dud_coupon2, active_coupon])
-  end
-end
 
   describe '#sort_by_active for index' do
     it 'Coupon.sort_by_active(true)' do

@@ -1,13 +1,16 @@
 class Api::V1::CouponsController < ApplicationController
 
   def index
+    merchant = Merchant.find(params[:merchant_id])
+  
     if params[:sort_by_active] == "true"
-      coupons = Coupon.sort_by_active(true)
+      coupons = merchant.coupons.sort_by_active(merchant.id, true)
     elsif params[:sort_by_active] == "false"
-      coupons = Coupon.sort_by_active(false)
+      coupons = merchant.coupons.sort_by_active(merchant.id, false)
     else
-      coupons = Merchant.find(params[:merchant_id]).coupons
+      coupons = merchant.coupons
     end
+  
     render json: CouponSerializer.new(coupons)
   rescue ActiveRecord::RecordNotFound => error
     render json: ErrorSerializer.format_error(error, 404), status: :not_found
@@ -34,7 +37,7 @@ class Api::V1::CouponsController < ApplicationController
   def update
     coupon = Coupon.find(params[:id])
     if coupon.update(coupon_params)
-      render json: CouponSerializer.new(coupon, meta: {status: response.status})#, status: :ok
+      render json: CouponSerializer.new(coupon, meta: {status: response.status})
     else
       render json: { errors: coupon.errors.full_messages }, status: :unprocessable_entity
     end
